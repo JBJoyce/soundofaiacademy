@@ -25,5 +25,6 @@ if __name__ == "__main__":
     
     product = Product(name='record', currency='euro', price=12.34)
     print(product.to_tuple())
+    
               
     
