@@ -1,4 +1,4 @@
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Tuple
 
 from pydantic import BaseModel, validator
 
@@ -18,7 +18,7 @@ class Product(BaseModel):
             raise InvalidCurrencyError(value, message)
         return value
     
-    def to_tuple(self) -> tuple:
+    def to_tuple(self) -> Tuple[str, str, float]:
         return((self.name, self.currency, self.price))
 
 if __name__ == "__main__":
