@@ -3,20 +3,20 @@ import sqlite3
 import os
 from pathlib import Path
 
-from src.project.datapipeline import create_hardcoded_data_pipeline
-from src.project.storing.createdb import create_db
-from src.project.threadeddatapipeline import ThreadedDataPipeline
-from src.project.utils import create_file_paths_from_dir, nest_list
+from storing.createdb import create_db
+from threadeddatapipeline import ThreadedDataPipeline
+from utils import create_file_paths_from_dir, nest_list
+from datapipeline import create_hardcoded_data_pipeline
 
 
 
 NUM_THREADS = 10
 
 def main():
-    create_db("test.db")
+    create_db("/home/jbjoyce/soundofaiacademy/adv_python/project/test.db")
 
     # create necessary resources
-    paths = create_file_paths_from_dir(Path("samplefiles"))
+    paths = create_file_paths_from_dir(Path("/home/jbjoyce/soundofaiacademy/adv_python/project/samplefiles"))
     nested_list_length = math.ceil(len(paths) / NUM_THREADS)
     nested_paths = nest_list(paths, nested_list_length)
     data_pipelines = [create_hardcoded_data_pipeline() for i in range(NUM_THREADS)]
@@ -31,7 +31,7 @@ def main():
         thread.join()
 
     # fetch db entries and print them
-    connection = sqlite3.connect("test.db")
+    connection = sqlite3.connect("/home/jbjoyce/soundofaiacademy/adv_python/project/test.db")
     cursor = connection.cursor()
     cursor.execute("SELECT NAME, CURRENCY, PRICE FROM PRODUCT")
     products = cursor.fetchall()
@@ -39,7 +39,7 @@ def main():
     print(len(products))
 
     # remove db
-    os.remove("test.db")
+    os.remove("/home/jbjoyce/soundofaiacademy/adv_python/project/test.db")
 
 
 if __name__ == "__main__":

@@ -1,8 +1,8 @@
 from typing import List, Dict
 from pathlib import Path
 
-from src.project.errors import DifferentNumberOfArgumentsError
-from src.project.product import Product
+from errors import DifferentNumberOfArgumentsError
+from product import Product
 
 
 def accepts_types(*expected_types):

@@ -1,6 +1,6 @@
-from src.project.transforming.transform import Transform
-from src.project.product import Product
-from src.project.utils import accepts_types
+from transforming.transform import Transform
+from product import Product
+from utils import accepts_types
 
 
 class PriceMultiplier(Transform):

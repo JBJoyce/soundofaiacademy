@@ -2,8 +2,8 @@ from typing import List, Tuple
 
 import sqlite3
 
-from src.project.product import Product
-from src.project.utils import accepts_types
+from product import Product
+from utils import accepts_types
 
 
 

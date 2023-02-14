@@ -1,4 +1,4 @@
-from sqlite3 import connect
+import sqlite3
 
 
 
@@ -15,11 +15,13 @@ class SQLiteContextManager:
         """Establish connection with db and return cursor to be used to execute
         db queries.
         """
-        
-        self.connection = connect(self.db_path)
+        self.connection = sqlite3.connect(self.db_path)
         return self.connection.cursor()
     
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Commit queries and close connection."""
         self.connection.commit()
-        self.connection.close()            
+        self.connection.close()
+        
+                
+                

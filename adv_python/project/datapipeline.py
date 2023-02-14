@@ -1,15 +1,16 @@
 from typing import List, Dict
 from pathlib import Path
-from sqlite3 import Cursor
+import sqlite3
 
-from src.project.loading.loaderiterator import LoaderIterator
-from src.project.transforming.batchtransformer import BatchTransformer
-from src.project.transforming.currencyconverter import CurrencyConverter, latest_exchange_rates
-from src.project.transforming.pricemultiplier import PriceMultiplier
-from src.project.storing.sqlitecontextmanager import SQLiteContextManager
-from src.project.storing.sqlitebatchproductstorer import SQLiteBatchProductStorer
-from src.project.utils import accepts_types 
-from src.project.utils import create_products
+from transforming.batchtransformer import BatchTransformer
+from transforming.currencyconverter import CurrencyConverter, latest_exchange_rates
+from transforming.pricemultiplier import PriceMultiplier
+from storing.sqlitecontextmanager import SQLiteContextManager
+from storing.sqlitebatchproductstorer import SQLiteBatchProductStorer
+from storing.createdb import create_db
+from loading.loaderiterator import LoaderIterator
+from loading.serialization import JsonSerializer
+from utils import accepts_types, create_products, create_file_paths_from_dir 
 
 
 
@@ -37,7 +38,7 @@ class DataPipeline:
                              
 
     def _process_product_batch(self,
-                               db_cursor: Cursor,
+                               db_cursor: sqlite3.Cursor,
                                product_data_batch: List[Dict]) -> None:
         products = create_products(product_data_batch)
         transformed_products = self.batch_transformer.apply(products)
@@ -45,13 +46,16 @@ class DataPipeline:
         
 def create_hardcoded_data_pipeline() -> DataPipeline:
     ### TODO create arguments for direct injection
-    loader_iterator = LoaderIterator(JsonSerializer(), 2)
+    loader_iterator = LoaderIterator(JsonSerializer(), 2, None)
     batch_transformer = BatchTransformer(
          [CurrencyConverter(latest_exchange_rates, "euro"),
          PriceMultiplier(0.8)])
     product_storer = SQLiteBatchProductStorer()
-    sqlite_context_manager = SQLiteContextManager("test.db")
+    sqlite_context_manager = SQLiteContextManager("/home/jbjoyce/soundofaiacademy/adv_python/project/test.db")
     return DataPipeline(loader_iterator,
                         batch_transformer,
-                        product_storer,
-                        sqlite_context_manager)                                     
+                        sqlite_context_manager,
+                        product_storer,)
+    
+
+                                      

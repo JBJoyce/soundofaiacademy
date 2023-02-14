@@ -1,8 +1,8 @@
 from typing import List
 
-from src.project.product import Product
-from src.project.transforming.transform import Transform
-from src.project.utils import accepts_types
+from product import Product
+from transforming.transform import Transform
+from utils import accepts_types
 
 
 

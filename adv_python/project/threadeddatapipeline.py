@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 from typing import List
 
-from src.project.datapipeline import DataPipeline
+from datapipeline import DataPipeline
 
 
 logging.basicConfig(level=logging.INFO, format="(%(threadName)-5s) %(message)s",)
